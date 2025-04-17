@@ -1,0 +1,17 @@
+==== LANGKAH LANGKAH ======
+
+1. NPM INIT
+
+2. install depedensi
+    = express
+    = dotenv
+
+3. Ubah atau tambahkan code di package json
+    'type': "module",
+    'main': "nama-file-server-anda",
+
+    'start': "npx nodemon nama-file-server-anda.js"
+
+4. Inisialisasi Project di MongoDB
+
+5. 
