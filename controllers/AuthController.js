@@ -17,8 +17,8 @@ export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
-	console.log("hashedPassword.length", hashedPassword.length);
-	
+    console.log("hashedPassword.length", hashedPassword.length);
+
     const newUser = await User.create({
       username,
       email,
@@ -27,7 +27,7 @@ export const registerUser = async (req, res) => {
 
     // const token = createToken(newUser._id);
     res.status(201).json({
-		//   token,
+      //   token,
       status: "success",
       data: {
         user: newUser,
@@ -52,15 +52,21 @@ export const userLogin = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-	console.log("user is find?", user);
-	
+    console.log("user is find?", user);
+    if (!user) {
+      return res.status(401).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     // Check apakah user ditemukan dan password cocok
-    if (!user || !isPasswordCorrect) {
+    if (!isPasswordCorrect) {
       return res.status(401).json({
         status: "fail",
-        message: "User not found or invalid credentials",
+        message: "invalid password or invalid credentials",
       });
     }
 

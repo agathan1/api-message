@@ -1,7 +1,14 @@
 import express from "express";
-import { getAllMessage, sendMessage, getMessageById, getMyMessages, deleteMessage } from "../controllers/MessageController.js";
-import { protect } from "../middleware/authMiddleware.js";
-import {authorizeRoles} from "../middleware/roleMiddleware.js";
+import {
+  getAllMessage,
+  sendMessage,
+  getMessageById,
+  getMyMessages,
+  deleteMessage,
+  updateMessage,
+} from "../controllers/MessageController.js";
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
+import { authorizeRoles } from "../middleware/roleMiddleware.js";
 import multer from "multer";
 const upload = multer();
 
@@ -20,7 +27,9 @@ router.get("/message-list/:id", getMessageById);
 router.get("/my-message", protect, getMyMessages);
 
 // DELETE MESSAGE
-router.delete("/message/:id", protect, authorizeRoles("admin"), deleteMessage);
+router.delete("/message/:id", protect, adminOnly, deleteMessage);
 
+// UPDATE MESSAGE
+router.patch("/message-update/:id", protect, adminOnly, updateMessage);
 
 export default router;
