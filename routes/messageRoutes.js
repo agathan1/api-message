@@ -10,7 +10,15 @@ import {
 import { protect, adminOnly } from "../middleware/authMiddleware.js";
 import { authorizeRoles } from "../middleware/roleMiddleware.js";
 import multer from "multer";
-const upload = multer();
+// const upload = multer();
+
+const upload = multer({
+  limits: {
+    fieldNameSize: 100, // Batas panjang nama field (karakter)
+    fieldSize: 1024 * 1024, // Batas ukuran isi pesan/field (1 MB)
+    fields: 10 // Batas maksimal jumlah field teks
+  }
+});
 
 const router = express.Router();
 
